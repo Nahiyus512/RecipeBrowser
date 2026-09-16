@@ -3,12 +3,15 @@
   <!--
     把成品复制进 TerrariaModder\mods\recipe-browser\，进游戏就能用。
     平时不会触发，只有显式传 -p:DeployMod=true 才会执行。
+    两个语言版的模组 id 相同，装哪个就覆盖哪个。
   -->
   <Target Name="DeployToTerrariaModder"
           AfterTargets="Build"
           Condition="'$(DeployMod)' == 'true'">
     <ItemGroup>
-      <DeployModFile Include="$(TargetDir)*" />
+      <DeployModFile Include="$(TargetDir)$(AssemblyName).dll" />
+      <DeployModFile Include="$(TargetDir)manifest.json" />
+      <DeployModFile Include="$(TargetDir)icon.png" Condition="Exists('$(TargetDir)icon.png')" />
     </ItemGroup>
     <Copy SourceFiles="@(DeployModFile)" DestinationFolder="$(ModderDir)mods\$(ModId)\" />
     <Message Importance="high" Text="已安装到 $(ModderDir)mods\$(ModId)\" />

@@ -1519,6 +1519,9 @@ public static partial class Browser
             else
             {
                 SelectRecipe(recipeIndex);
+                // 和原模组 UIRecipeSlot.LeftClick 一样：选中之后顺手让游戏自己的制作菜单也跳到这一条
+                // （右键那条路是“怎么看出来的”，原模组没同步，这里也不动它）
+                GameCraftingMenu.FocusRecipe(recipeIndex);
             }
         }
         if (res.RightClicked >= 0)
