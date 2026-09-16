@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>RecipeBrowser</AssemblyName>
+    <RootNamespace>RecipeBrowser</RootNamespace>
+    <!-- 模组 ID，需与 manifest.json 里的 "id" 一致 -->
+    <ModId>recipe-browser</ModId>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- 编译产物统一放 bin\，里面就是可以直接复制进 TerrariaModder\mods\ 的成品 -->
+    <OutputPath>bin\</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 让 bin\ 里同时带上 manifest.json，整个文件夹就是可安装的成品 -->
+    <None Update="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 原模组自带的贴图（.rawimg = 12 字节头 + 原始 RGBA）：
+         52x52 的槽位底板/选中框（绿色“现在能做”底、选中框、收藏框），
+         以及 24x24 的排序图标（sortPick / sortValue / sortAZ……，分类栏的按钮上直接用它）。
+         嵌进 DLL，运行期用 SetData 直接贴上去，和 tModLoader 里的画法一致。 -->
+    <EmbeddedResource Include="assets\*.rawimg" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 框架 / 游戏引用：路径在 Directory.Build.props 里配置 -->
+    <Reference Include="TerrariaModder.Core">
+      <HintPath>$(ModderDir)core\TerrariaModder.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Terraria">
+      <HintPath>$(TerrariaDir)Terraria.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics">
+      <HintPath>$(XnaGacDir)Microsoft.Xna.Framework.Graphics\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Graphics.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ReLogic">
+      <HintPath>$(TModLoaderDir)Libraries\ReLogic\1.0.0\ReLogic.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

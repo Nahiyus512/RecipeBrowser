@@ -1,0 +1,17 @@
+<Project>
+
+  <!--
+    把成品复制进 TerrariaModder\mods\recipe-browser\，进游戏就能用。
+    平时不会触发，只有显式传 -p:DeployMod=true 才会执行。
+  -->
+  <Target Name="DeployToTerrariaModder"
+          AfterTargets="Build"
+          Condition="'$(DeployMod)' == 'true'">
+    <ItemGroup>
+      <DeployModFile Include="$(TargetDir)*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DeployModFile)" DestinationFolder="$(ModderDir)mods\$(ModId)\" />
+    <Message Importance="high" Text="已安装到 $(ModderDir)mods\$(ModId)\" />
+  </Target>
+
+</Project>
